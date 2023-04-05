@@ -1,18 +1,15 @@
+// Functionality to add FAQ Accordion and make the list responsive
+
 const firstCard = document.querySelector('#first-card');
+const accordionHeaders = document.querySelectorAll('.card-header');
 
-function createCardContent(){
-    const cardDiv = document.createElement('div');
-    const cardContent = document.createElement('div');
-    cardDiv.classList.add = 'card-content';
-    cardDiv.classList.add ="justify-content-center";
-    cardDiv.classList.add ="align-items-center";
-    cardContent.classList.add = 'content';
-    cardContent.innerText = 'Concept of NugLog began when the love of my life was having a lot of poochie-poopies. I decided to make NugLog to allow her to track the number of daily poochies and also provide some statistical data so if there is too many poochies or not enough poochies, she can visit the local GP.   .';
-    cardDiv.append(cardContent);
-    firstCard.appendChild(cardDiv);
-}
+accordionHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+        const accordionBody = header.nextElementSibling;
+        header.classList.toggle('active');
+        accordionBody.classList.toggle('active');
+    });
+});
 
-firstCard.addEventListener('click', () => {
-    createCardContent()
-    console.log('first card has been clicked')
-})
+/* TODO: Add a basic functionality to track a nug and log it into the Firebase Database */
+

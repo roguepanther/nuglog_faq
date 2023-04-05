@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="nugstyle.css">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/2da2c5c1d1.js" crossorigin="anonymous"></script>
+    <title>LogANug</title>
+</head>
+<body>
+    <section class="section">
+        <div class="container is-centered is-vcentered has-text-centered">
+            <h1 class="title"> 💩Log A Nug 💩</h1>
+            <p class="subtitle"> powered by <strong> NugLog </strong></p>
+            <button class="button is-dark has-text-centered is-centered"> View 💩 History </button>
+        </div>
+
+    </section>
+
+    <!-- Form to hold the user input for Nugs -->
+    <section class="section">
+        <div class="field">
+            <label class="label"> When did Nug take place? </label>
+            <div class="control">
+                <input type="date" class="input" id="datepicker" name="datepicker">
+            </div>
+            <p class="help"> This will be used for analytics and nug stat purposes. </p>
+        </div>
+        <div class="field">
+            <label class="label"> Memorable Nug Name:  </label>
+            <div class="control">
+                <input type="text" class="input" id="nugName" placeholder="enter the name of your nug...">
+            </div>
+            <p class="help"> This will help you memorise when nug took place. </p>
+        </div>
+        <div class="field">
+            <label class="label"> Which Number Nug is this? </label>
+            <div class="control">
+                <div class="select">
+                    <select id="nugNumberSelect">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label"> How would you rate this nug? </label>
+            <div class="control">
+                <div class="select">
+                    <select id="nugRatingSelect">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+            <p class="help"> 1 = Terrible Nug, 10 = Amazing Nug. </p>
+        </div>
+        <button class="button is-success" id="submitNugBtn">submit a 💩</button>
+    </section>
+
+    <script src="nugapp.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDsZiGKtbqi20S-eXwwr3BRx7NJqV3_d7U",
+            authDomain: "nuglog.firebaseapp.com",
+            databaseURL: "https://nuglog-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "nuglog",
+            storageBucket: "nuglog.appspot.com",
+            messagingSenderId: "405497355811",
+            appId: "1:405497355811:web:d2bc7f4a24be6ed312db96"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import { getDatabase, set, get, update, remove, ref, child, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js"
+
+        const db = getDatabase();
+
+        // Define all elements from the form to be used for data collection
+        const nugDate = document.querySelector('#datepicker');
+        const nugName = document.querySelector('#nugName');
+        const nugDailyPosition = document.querySelector('#nugNumberSelect');
+        const nugRating = document.querySelector('#nugRatingSelect');
+        const nugSubmitBtn = document.querySelector('#submitNugBtn');
+
+        function InsertData(){
+            push( ref(db, "Nugs/"), {
+                Date: nugDate.value,
+                Name: nugName.value,
+                NugDailyPos: nugDailyPosition.value,
+                NugRating: nugRating.value
+            })
+                .then(() => {
+                    console.log('Data added successfully!')
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+
+        // Add an event listener whenever someone clicks the submit nug button, the data will be added into the database
+        nugSubmitBtn.addEventListener('click', () => {
+            InsertData();
+        })
+
+
+
+
+
+    </script>
+</body>
+</html>

@@ -5,6 +5,7 @@
 
 .card-header {
     position: relative;
+    cursor: pointer;
 }
 
 .fa-chevron-down {
@@ -14,3 +15,15 @@
     right: 0;
     padding-right: 20px;
 }
+
+.accordion-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in;
+}
+
+.accordion-body.active {
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in;
+}
+
