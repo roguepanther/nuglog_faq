@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NugStory</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="nugstory.css">
+
+</head>
+<body>
+    <section class="section">
+        <div class="container is-fullwidth has-text-centered">
+            <h1 class="title"> NugStory </h1>
+            <p class="subtitle"> View your Nug History </p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-centered has-text-centered">
+        <table class="table is-striped is-hoverable is-fullwidth is-centered">
+            <thead>
+            <tr>
+                <th id="dateRow"> Date:  </th>
+                <th id="nameRow"> Memorable Name: </th>
+                <th id="dayRow"> Nug of the Day: </th>
+                <th id="ratingRow"> Nug Rating: </th>
+            </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+        </div>
+    </section>
+
+    <script src="nugstory.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDsZiGKtbqi20S-eXwwr3BRx7NJqV3_d7U",
+            authDomain: "nuglog.firebaseapp.com",
+            databaseURL: "https://nuglog-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "nuglog",
+            storageBucket: "nuglog.appspot.com",
+            messagingSenderId: "405497355811",
+            appId: "1:405497355811:web:d2bc7f4a24be6ed312db96"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        // Initialize all constants from the table that exists already
+        const tableBody = document.querySelector('#tableBody');
+
+        import { getDatabase, set, get, update, onValue, ref, child, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js"
+
+        // const db = getDatabase();
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, 'Nugs/')).then((snapshot) => {
+            if(snapshot.exists()){
+                const data = snapshot.val();
+                // We are receiving the data as an object from Firebase
+                // console.log(data);
+
+                for (let key in data) {
+                    const row = tableBody.insertRow();
+                    const obj = data[key];
+                    for (let prop in obj) {
+                        const cell = row.insertCell();
+                        const text = document.createTextNode(obj[prop]);
+                        cell.appendChild(text);
+                    }
+                }
+
+            } else {
+                console.log('No data available ');
+            }
+        }).catch((error) => {
+            console.error(error);
+        })
+
+    </script>
+</body>
+</html>
